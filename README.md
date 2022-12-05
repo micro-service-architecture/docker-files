@@ -2,6 +2,7 @@
 ## 목차
 * **[애플리케이션 배포 Docker Container](#애플리케이션-배포-Docker-Container)**
   * **[Mysql 배포](#Mysql-배포)**
+  * **[Kafka 배포](#Kafka-배포)**
 
 ## 애플리케이션 배포 Docker Container
 ### Mysql 배포
@@ -44,3 +45,5 @@ grant all privileges on *.* to 'root'@'%' identified by 'test1357';
 flush privileges
 ```
 ![image](https://user-images.githubusercontent.com/31242766/205599630-b30155c4-6553-419d-9c83-655cc74f42a6.png)
+
+### Kafka 배포
