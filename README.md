@@ -99,3 +99,44 @@ docker run -d -p 9411:9411 --network ecommerce-network --name zipkin openzipkin/
 ```
 
 ### Prometheus 배포
+#### prometheus.yml 파일 수정
+```yml
+...
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: "prometheus"
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+      - targets: ["prometheus:9090"]
+  - job_name: 'user-service'
+    scrape_interval: 15s
+    metrics_path: '/user-service/actuator/prometheus'
+    static_configs:
+    - targets: ['apigateway-service:8000']
+  - job_name: 'order-service'
+    scrape_interval: 15s
+    metrics_path: '/order-service/actuator/prometheus'
+    static_configs:
+    - targets: ['apigateway-service:8000']
+  - job_name: 'apigateway-service'
+    scrape_interval: 15s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+    - targets: ['apigateway-service:8000']
+    ...
+```
+#### 도커 파일 실행
+```docker
+docker run -d -p 9090:9090 --network ecommerce-network --name prometheus -v C:\prometheus-2.40.2.windows-amd64/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus 
+
+-v : VOLUME 옵션 설정
+```
+
+### Grafana 배포
+#### 도커 파일 실행
+```docker
+docker run -d -p 3000:3000 --network ecommerce-network --name grafana grafana/grafana 
+```
