@@ -4,6 +4,8 @@
   * **[Mysql 배포](#Mysql-배포)**
   * **[Kafka 배포](#Kafka-배포)**
   * **[Zipkin 배포](#Zipkin-배포)**
+  * **[Prometheus 배포](#Prometheus-배포)**
+  * **[Grafana 배포](#Grafana-배포)**
 
 ## 애플리케이션 배포 Docker Container
 ### Mysql 배포
@@ -91,3 +93,9 @@ C:\docker-files\kafka-docker> docker-compose -f docker-compose-single-broker.yml
 ```
 
 ### Zipkin 배포
+#### 도커 파일 실행
+```docker
+docker run -d -p 9411:9411 --network ecommerce-network --name zipkin openzipkin/zipkin
+```
+
+### Prometheus 배포
