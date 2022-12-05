@@ -3,6 +3,7 @@
 * **[애플리케이션 배포 Docker Container](#애플리케이션-배포-Docker-Container)**
   * **[Mysql 배포](#Mysql-배포)**
   * **[Kafka 배포](#Kafka-배포)**
+  * **[Zipkin 배포](#Zipkin-배포)**
 
 ## 애플리케이션 배포 Docker Container
 ### Mysql 배포
@@ -47,3 +48,46 @@ flush privileges
 ![image](https://user-images.githubusercontent.com/31242766/205599630-b30155c4-6553-419d-9c83-655cc74f42a6.png)
 
 ### Kafka 배포
+- Zookeeper + Kafka Standalone 으로 실행한다.
+- docker-compose로 실행
+- git clone https://github.com/wurstmeister/kafka-docker
+- docker-compose-single-broker.yml 파일을 수정한다.
+
+#### docker-compose-single-broker.yml 파일 수정
+```yml
+version: '2'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+    networks: 
+      my-network:
+        ipv4_address: 172.18.0.100
+  kafka:
+    # build: .
+    image: wurstmeister/kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 172.18.0.101
+      KAFKA_CREATE_TOPICS: "test:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on: 
+      - zookeeper
+    networks: 
+      my-network:
+        ipv4_address: 172.18.0.101
+networks: 
+  my-network:
+    external: true
+    name: ecommerce-network # 172.18.0.1~
+```
+#### docker-compose 실행
+```docker
+C:\docker-files\kafka-docker> docker-compose -f docker-compose-single-broker.yml up -d
+```
+
+### Zipkin 배포
