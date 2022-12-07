@@ -140,3 +140,7 @@ docker run -d -p 9090:9090 --network ecommerce-network --name prometheus -v C:\p
 ```docker
 docker run -d -p 3000:3000 --network ecommerce-network --name grafana grafana/grafana 
 ```
+
+## 참고
+https://velog.io/@shinmj1207/Apache-Kafka-Kafka-Spring-Boot-연동-오류-모음       
+https://stackoverflow.com/questions/67763076/connection-to-node-1-127-0-0-19092-could-not-be-established-broker-may-not
